@@ -1,5 +1,6 @@
 <?php 
 
+
 include('connection.php');
 // $dob = date('Y-m-d',strtotime($_REQUEST['dateofbirth'])); 
 $date  = date('Y-m-d');
@@ -25,8 +26,22 @@ $date  = date('Y-m-d');
 	$ifsccode = $_POST['ifsccode']; 
 	$referalid = $_POST['referalid'];  
 	$referalname = $_POST['referalname'];
+
+
+	$capping = 1000;
 	//$leg = $_POST['leg']; 
+
+
+	$flag=0;
+
 	
+
+	if($name!='' && $age!='' && $gender!='' && $fhname!='' && $nominename!='' && $nominenumber!='' && $address!='' && $mobile!='' && $alternatenum!='' && $email!='' && $amount!='' && $amountwords!='' && $idproof!='' &&  $pannum!='' &&  $adharnum!='' && $bankname!='' && $branch!='' && $accnum!='' && $ifsccode!='' && $referalid!='' && $referalname!=''){
+
+		
+	}else{
+		echo '<script>alert("Please fill all the filled.")</script>';
+	}
 
 	
 	
@@ -74,11 +89,61 @@ $date  = date('Y-m-d');
 				
 				if(mysqli_num_rows($res) < 2 )
 				{
+						
 					
 						$rows = mysqli_fetch_array($res);
 						if(mysqli_num_rows($res) == 0) 
 						{
+							// position 0 == left 
+							// insert into tree ...
+
+							
+							$query = mysqli_query($connection , "insert into tree (`userid`) values('$usid') ");
+
+							// update the tree ..
+
+							$sql = "update tree set `left`='$usid' where userid='$referalid' ";
+
+							$query = mysqli_query($connection ,$sql );
+
+							// update count ..
+
+							$sql = "select * from tree where userid='$referalid'";
+							$query = mysqli_query($connection , $sql);
+							$row = mysqli_fetch_array($query);
+
+							$prevcount = $row['leftcount'];
+
+							$currentcount =  $prevcount + 1;
+
+							// query for update  the count ....
+
+							$sql = "update tree set `leftcount`='$currentcount' where userid='$referalid' ";
+							$query = mysqli_query($connection , $sql);
+
+							$result = mysqli_fetch_array($query);
+
+
+								//update root count ... 
+
+
+
+
+							// insert for income 
+							$initial_day_bal = 0;
+							$initial_current_bal = 0;
+							$initial_total_bal = 0;
+							$sql = "insert into income (`userid` , `day_bal` , `current_bal` ,`total_bal`) values('$usid', '$initial_day_bal','$initial_current_bal','$initial_total_bal')";
+							$query = mysqli_query($connection , $sql);
+
+							// update the root count ...
+
+								
+								
+
 							$position=0;
+
+							
 						}
 						 
 						else if(mysqli_num_rows($res) == 1)
@@ -86,10 +151,92 @@ $date  = date('Y-m-d');
 							$rows = mysqli_fetch_array($res);
 							if($rows['position'] == 0)
 							{
+
+								// position 1 == right
+								// insert into tree ...
+
+									$sql = "insert into tree (`userid` ) values('$usid') " ;
+
+									$query = mysqli_query($connection , $sql);
+
+								// update the tree ..
+
+									$sql = "update tree set `right`='$usid' where userid='$referalid' ";
+									$query = mysqli_query($connection ,$sql );
+
+
+									$prevcount = $row['rightcount'];
+
+									$currentcount =  $prevcount + 1;
+
+								// query for update  the count ....
+
+									$sql = "update tree set `rightcount`='$currentcount' where userid='$referalid' ";
+									$query = mysqli_query($connection , $sql);
+
+								
+								// insert the income table ... 
+							
+									$initial_day_bal = 0;
+									$initial_current_bal = 0;
+									$initial_total_bal = 0;
+									$sql = "insert into income (`userid` , `day_bal` , `current_bal` ,`total_bal`) values('$usid', '$initial_day_bal','$initial_current_bal','$initial_total_bal')";
+									$query = mysqli_query($connection , $sql);
+
+
+
+								// update the root user income ...
+
+									$sql = "select * from income userid='$referalid'";
+									$query = mysqli_query($connection , $sql);
+									$row = mysqli_fetch_array($query);
+
+								// increment the income values ...
+									$update_day_bal = $row['day_bal'] + 250;
+									$update_current_bal = $row['current_bal'] + 250;
+									$update_total_bal = $row['total_bal'] + 250 ;
+
+								$sql = "update income set `day_bal`='$update_day_bal' , `current_bal`='$update_current_bal' , `total_bal` = '$update_total_bal'  where userid='$referalid'";
+
+
+
+								$query = mysqli_query($connection , $sql);
 								$position= 1;
+
+
+								
 							}
 							else
 							{
+								// position 0 == left 
+							// insert into tree ...
+							$sql = "insert into tree (`userid`) values('$usid') ";
+							$query = mysqli_query($connection , $sql);
+
+							// update the tree ..
+							$sql = "update tree set `left`='$usid' where userid='$referalid' ";
+							$query = mysqli_query($connection , $sql);
+
+
+							$prevcount = $row['leftcount'];
+
+							$currentcount =  $prevcount + 1;
+
+							// query for update  the count ....
+
+							$sql = "update tree set `leftcount`='$currentcount' where userid='$referalid' ";
+							$query = mysqli_query($connection , $sql);
+
+
+
+							// insert for income 
+							$initial_day_bal = 0;
+							$initial_current_bal = 0;
+							$initial_total_bal = 0;
+							$sql = "insert into income (`userid` , `day_bal` , `current_bal` ,`total_bal`) values('$usid', '$initial_day_bal','$initial_current_bal','$initial_total_bal')";
+							$query = mysqli_query($connection , $sql);
+
+								
 								$position= 0;
 							}
 							
@@ -113,13 +260,16 @@ $date  = date('Y-m-d');
 						$sql="INSERT INTO user (name,age,gender,fhname,nominename,nominenumber,address,mobile,alternatenum , email, amount,amountwords, idproof,  pannum,adharnum,bankname,branch,accnum,ifsccode,referalid, referalname,userid, dateofbirth,paymentmode,password,position, status,sponserid,createddate, totalincome) 
 						
 						VALUES('$name','$age','$gender','$fhname','$nominename','$nominenumber','$address','$mobile','$alternatenum','$email','$amount','$amountwords','$idproof','$pannum','$adharnum','$bankname','$branch','$accnum',   '$ifsccode','$referalid','$referalname','$usid',0,0,'$password','$position',2,'$sponcer','$date',0)";
+
+						
+
 			 
 						if($connection->query($sql)==TRUE)
 						{    
 							 $id = $row['id'];
 							 $query= "UPDATE userid SET value='$value'  WHERE id='$id' ";
 							 $result = mysqli_query($connection, $query);  
-							header("location: thankyou.php");
+							 header("location: thankyou.php");
 						} 
 						else
 						{
@@ -140,6 +290,23 @@ $date  = date('Y-m-d');
 	}
 	
 	mysqli_close($connection);
+
+
+
+
 	
 	
+	// find the referalid ... 
+		function getReferalID($userid){
+			global $connection;
+
+			$sql = "select * from user where referalid = '$userid'";
+			$query = mysqli_query($connection , $sql);
+			$result = mysqli_fetch_array($query);
+
+			return $result['referalid'];
+		}
+
+		
+		
 ?>
