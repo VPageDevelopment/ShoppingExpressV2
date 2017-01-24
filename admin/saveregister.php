@@ -68,7 +68,7 @@ $date  = date('Y-m-d');
 		
 				$refer = $_POST['referalid'];
 
-			        $que="SELECT * FROM user WHERE userid ='$refer' ";
+			    $que="SELECT * FROM user WHERE userid ='$refer' ";
 				$resul=mysqli_query($connection,$que);
 				$Rows = mysqli_fetch_array($resul);
 				$sponcer = $Rows['id'];
@@ -102,26 +102,26 @@ $date  = date('Y-m-d');
 
 							// update the tree ..
 
-							$sql = "update tree set `left`='$usid' where userid='$referalid' ";
+							$sql_for_update_tree = "update tree set `left`='$usid' where userid='$referalid' ";
 
-							$query = mysqli_query($connection ,$sql );
+							$query_for_update_tree = mysqli_query($connection ,$sql_for_update_tree );
 
 							// update count ..
 
-							$sql = "select * from tree where userid='$referalid'";
-							$query = mysqli_query($connection , $sql);
-							$row = mysqli_fetch_array($query);
+							$sql_update_count = "select * from tree where userid='$referalid'";
+							$query_update_count = mysqli_query($connection , $sql);
+							$row_update_count = mysqli_fetch_array($query);
 
-							$prevcount = $row['leftcount'];
+							$prevcount = $row_update_count['leftcount'];
 
 							$currentcount =  $prevcount + 1;
 
 							// query for update  the count ....
 
-							$sql = "update tree set `leftcount`='$currentcount' where userid='$referalid' ";
-							$query = mysqli_query($connection , $sql);
+							$sql_update_left_count = "update tree set `leftcount`='$currentcount' where userid='$referalid' ";
+							$query_update_left_count = mysqli_query($connection , $sql_update_left_count);
 
-							$result = mysqli_fetch_array($query);
+							$result_update_left_count  = mysqli_fetch_array($query_update_left_count);
 
 
 								//update root count ... 
@@ -133,8 +133,8 @@ $date  = date('Y-m-d');
 							$initial_day_bal = 0;
 							$initial_current_bal = 0;
 							$initial_total_bal = 0;
-							$sql = "insert into income (`userid` , `day_bal` , `current_bal` ,`total_bal`) values('$usid', '$initial_day_bal','$initial_current_bal','$initial_total_bal')";
-							$query = mysqli_query($connection , $sql);
+							$sql_insert_income = "insert into income (`userid` , `day_bal` , `current_bal` ,`total_bal`) values('$usid', '$initial_day_bal','$initial_current_bal','$initial_total_bal')";
+							$query_insert_icome = mysqli_query($connection , $sql_insert_income);
 
 							// update the root count ...
 
@@ -155,24 +155,29 @@ $date  = date('Y-m-d');
 								// position 1 == right
 								// insert into tree ...
 
-									$sql = "insert into tree (`userid` ) values('$usid') " ;
+									$sql_insert_into_right_tree = "insert into tree (`userid` ) values('$usid') " ;
 
-									$query = mysqli_query($connection , $sql);
+									$query_insert_into_right_tree = mysqli_query($connection , $sql_insert_into_right_tree);
 
 								// update the tree ..
 
-									$sql = "update tree set `right`='$usid' where userid='$referalid' ";
-									$query = mysqli_query($connection ,$sql );
+									$sql_update_right_tree = "update tree set `right`='$usid' where userid='$referalid' ";
+									$query_update_right_tree = mysqli_query($connection ,$sql_update_right_tree );
 
 
-									$prevcount = $row['rightcount'];
+									// select the tree table
+
+									$sql_update_right_count = "select * from tree where userid='$referalid'";
+									$query_update_right_count = mysqli_query($connection , $sql);
+									$row_update_right_count = mysqli_fetch_array($query);
+									$prevcount = $row_update_right_count['rightcount'];
 
 									$currentcount =  $prevcount + 1;
 
 								// query for update  the count ....
 
-									$sql = "update tree set `rightcount`='$currentcount' where userid='$referalid' ";
-									$query = mysqli_query($connection , $sql);
+									$sql_up_right_count = "update tree set `rightcount`='$currentcount' where userid='$referalid' ";
+									$query_up_right_count = mysqli_query($connection , $sql_up_right_count);
 
 								
 								// insert the income table ... 
@@ -180,62 +185,34 @@ $date  = date('Y-m-d');
 									$initial_day_bal = 0;
 									$initial_current_bal = 0;
 									$initial_total_bal = 0;
-									$sql = "insert into income (`userid` , `day_bal` , `current_bal` ,`total_bal`) values('$usid', '$initial_day_bal','$initial_current_bal','$initial_total_bal')";
-									$query = mysqli_query($connection , $sql);
+									$sql_insert_right_user_income = "insert into income (`userid` , `day_bal` , `current_bal` ,`total_bal`) values('$usid', '$initial_day_bal','$initial_current_bal','$initial_total_bal')";
+									$query_insert_right_user_income = mysqli_query($connection , $sql_insert_right_user_income);
 
 
 
 								// update the root user income ...
 
-									$sql = "select * from income userid='$referalid'";
-									$query = mysqli_query($connection , $sql);
-									$row = mysqli_fetch_array($query);
+									$sql_up_root_user_income = "select * from income userid='$referalid'";
+									$query_up_root_user_income = mysqli_query($connection , $sql_up_root_user_income);
+									$row_up_root_user_income = mysqli_fetch_array($query);
 
 								// increment the income values ...
-									$update_day_bal = $row['day_bal'] + 250;
-									$update_current_bal = $row['current_bal'] + 250;
-									$update_total_bal = $row['total_bal'] + 250 ;
+									$update_day_bal = $row_up_root_user_income['day_bal'] + 250;
+									$update_current_bal = $row_up_root_user_income['current_bal'] + 250;
+									$update_total_bal = $row_up_root_user_income['total_bal'] + 250 ;
 
-								$sql = "update income set `day_bal`='$update_day_bal' , `current_bal`='$update_current_bal' , `total_bal` = '$update_total_bal'  where userid='$referalid'";
+									$sql_update_root_user_income = "update income set `day_bal`='$update_day_bal' , `current_bal`='$update_current_bal' , `total_bal` = '$update_total_bal'  where userid='$referalid'";
 
 
 
-								$query = mysqli_query($connection , $sql);
-								$position= 1;
+									$query_update_root_user_income = mysqli_query($connection , $sql_update_root_user_income);
+									$position= 1;
 
 
 								
 							}
 							else
 							{
-								// position 0 == left 
-							// insert into tree ...
-							$sql = "insert into tree (`userid`) values('$usid') ";
-							$query = mysqli_query($connection , $sql);
-
-							// update the tree ..
-							$sql = "update tree set `left`='$usid' where userid='$referalid' ";
-							$query = mysqli_query($connection , $sql);
-
-
-							$prevcount = $row['leftcount'];
-
-							$currentcount =  $prevcount + 1;
-
-							// query for update  the count ....
-
-							$sql = "update tree set `leftcount`='$currentcount' where userid='$referalid' ";
-							$query = mysqli_query($connection , $sql);
-
-
-
-							// insert for income 
-							$initial_day_bal = 0;
-							$initial_current_bal = 0;
-							$initial_total_bal = 0;
-							$sql = "insert into income (`userid` , `day_bal` , `current_bal` ,`total_bal`) values('$usid', '$initial_day_bal','$initial_current_bal','$initial_total_bal')";
-							$query = mysqli_query($connection , $sql);
-
 								
 								$position= 0;
 							}
@@ -257,9 +234,9 @@ $date  = date('Y-m-d');
 						 $password = passGen(8,'abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%&');
 						 $password.'<br>';
 
-						$sql="INSERT INTO user (name,age,gender,fhname,nominename,nominenumber,address,mobile,alternatenum , email, amount,amountwords, idproof,  pannum,adharnum,bankname,branch,accnum,ifsccode,referalid, referalname,userid, dateofbirth,paymentmode,password,position, status,sponserid,createddate, totalincome) 
+						$sql="INSERT INTO user (name,age,gender,fhname,nominename,nominenumber,address,mobile,alternatenum , email, amount,amountwords, idproof,  pannum,adharnum,bankname,branch,accnum,ifsccode,referalid, referalname,userid, dateofbirth,paymentmode,password,position, status,sponserid,createddate) 
 						
-						VALUES('$name','$age','$gender','$fhname','$nominename','$nominenumber','$address','$mobile','$alternatenum','$email','$amount','$amountwords','$idproof','$pannum','$adharnum','$bankname','$branch','$accnum',   '$ifsccode','$referalid','$referalname','$usid',0,0,'$password','$position',2,'$sponcer','$date',0)";
+						VALUES('$name','$age','$gender','$fhname','$nominename','$nominenumber','$address','$mobile','$alternatenum','$email','$amount','$amountwords','$idproof','$pannum','$adharnum','$bankname','$branch','$accnum',   '$ifsccode','$referalid','$referalname','$usid',0,0,'$password','$position',2,'$sponcer','$date')";
 
 						
 
