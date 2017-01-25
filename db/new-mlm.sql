@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2017 at 07:37 AM
+-- Generation Time: Jan 25, 2017 at 01:52 PM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 7.0.13
 
@@ -93,9 +93,9 @@ CREATE TABLE `pack1` (
 INSERT INTO `pack1` (`sno`, `package`, `title`, `description`, `feathures`, `status`) VALUES
 (26, 'hhh', 'hhh', 'hhh', 'hhh', 1),
 (27, ' kjhggjkjjjjjjjjjjjjjjjjjkj', ' jkhjh', ' jhjk', 'p[p[p', 1),
-(28, '    hema', '   hema', '   hema', '  hema', 0),
-(29, ' hhh', ' hhh', ' hhh', '   hhh', 0),
-(30, 'pack', ' df', ' sdf', ' sdf', 0);
+(28, 'Package One', 'Package One TItle', '   Package One Description', '   Package One Features ', 0),
+(29, ' hhh', ' hhh', ' hhh', '   hhh', 1),
+(30, 'pack', ' df', ' sdf', ' sdf', 1);
 
 -- --------------------------------------------------------
 
@@ -172,9 +172,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `name`, `dateofbirth`, `age`, `gender`, `fhname`, `nominename`, `nominenumber`, `address`, `mobile`, `email`, `alternatenum`, `paymentmode`, `amount`, `amountwords`, `idproof`, `pannum`, `adharnum`, `bankname`, `branch`, `accnum`, `ifsccode`, `referalid`, `referalname`, `sponserid`, `userid`, `password`, `position`, `status`, `createddate`) VALUES
-(77, 'surendar', '0000-00-00', 88, '0', 'kalyanam', 'naveen', 9666666111, 'no:3a, usman nagar.', 2147483647, 'dreamchaser6930@gmail.com', 2147483647, '0', 4000, 'four', 'address', 'pan4545', 15151, 'state', 'vill', 265135, '15355', 'SE011031', 'surendar', 58, 'SE011032', 'admin', 0, 2, '2017-01-23'),
-(98, 'arun', '0000-00-00', 45, '0', 'asada', 'dsadasd', 561616, 'asdad', 5166, 'arun@gmail', 1651651, '0', 500, 'five', 'asda', 'a65', 6516, 'state', 'villupuram', 15616, '15616', 'SE011032', 'surendar', 77, 'SE011037', 'iaDP@L0Z', 0, 2, '2017-01-24'),
-(99, 'vijay', '0000-00-00', 45, '0', 'asada', 'dsadasd', 561616, 'asdad', 5166, 'vijay@gmail', 1651651, '0', 500, 'five', 'asda', 'a65', 6516, 'state', 'villupuram', 15616, '15616', 'SE011032', 'surendar', 77, 'SE011038', 'jdZ7!9yv', 1, 2, '2017-01-24'),
+(77, 'suresh', '0000-00-00', 88, 'Male', 'kalyanam', 'naveen', 9666666111, 'no:3a, usman nagar.', 2147483647, 'dreamchaser6930@gmail.com', 2147483647, '0', 4000, 'four', 'address', 'pan4545', 15151, 'state', 'vill', 265135, '15355', 'SE011031', 'surendar', 58, 'SE011032', 'admin', 0, 2, '2017-01-23'),
+(98, 'arun', '0000-00-00', 45, 'Male', 'asada', 'dsadasd', 561616, 'asdad', 5166, 'arun@gmail', 1651651, '0', 500, 'five', 'asda', 'a65', 6516, 'state', 'villupuram', 15616, '15616', 'SE011032', 'surendar', 77, 'SE011037', 'iaDP@L0Z', 0, 2, '2017-01-24'),
+(99, 'vijay', '0000-00-00', 45, 'Male', 'asada', 'dsadasd', 561616, 'asdad', 5166, 'vijay@gmail', 1651651, '0', 500, 'five', 'asda', 'a65', 6516, 'state', 'villupuram', 15616, '15616', 'SE011032', 'surendar', 77, 'SE011038', 'jdZ7!9yv', 1, 2, '2017-01-24'),
 (100, 'naveen', '0000-00-00', 45, 'Male', 'asad', 'adsa', 16516, 'adas', 1656, 'naveen@gmail', 65656, '0', 46516, 'ten', 'no : 3a ', 'pan123', 161, 'state', 'v', 1651, '516', 'SE011037', 'arun', 98, 'SE011039', 'lKZStXPj', 0, 2, '2017-01-24'),
 (101, 'ajith', '0000-00-00', 32, 'Female', 'sass', 'asas', 16516, 'no:3a villupuram', 2147483647, 'ajith@gmail.com', 1665651516, '0', 3000, 'three', 'no : 3a ', 'pan516', 516, 'state', 'vaa', 1551651, '51515', 'SE011037', 'arun', 98, 'SE011040', 'L!z4xBLC', 1, 2, '2017-01-24'),
 (102, 'ajai', '0000-00-00', 45, 'Male', 'Sudhan', 'asdasda', 165161, 'adasd', 1651655, 'ajai@gmail', 1565166, '0', 1231565, 'five', 'asdasd', 'pan1233', 165651, 'state', 'villupuram', 15151, '15156', 'SE011038', 'vijay', 99, 'SE011041', 'IZX5JBjR', 0, 2, '2017-01-24'),
